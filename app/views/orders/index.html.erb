@@ -1,0 +1,23 @@
+<div class='orders'></div>
+
+<%= form_with model: order do |f| %>
+  <%= f.label :weight %>
+  <%= f.number_field :weight %>
+
+  <%= f.label :length %>
+  <%= f.number_field :length %>
+
+  <%= f.label :width %>
+  <%= f.number_field :width %>
+
+  <%= f.label :height %>
+  <%= f.number_field :height %>
+
+  <%= f.label :departure_point %>
+  <%= f.text_field :departure_point %>
+
+  <%= f.label :destination %>
+  <%= f.text_field :destination %>
+
+  <%= f.submit %>
+<% end %>
