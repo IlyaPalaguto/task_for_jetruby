@@ -6,7 +6,7 @@ class OrdersController < ApplicationController
   private
 
   def orders
-    @orders ||= current_user.orders
+    @orders ||= current_user.orders.page params[:page]
   end
   helper_method :orders
 

@@ -4,6 +4,8 @@ class Order < ApplicationRecord
 
   belongs_to :user
 
+  paginates_per 3
+
   private
 
   def before_save_calculate_price

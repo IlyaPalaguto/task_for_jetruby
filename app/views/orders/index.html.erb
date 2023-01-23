@@ -9,9 +9,10 @@
     </tr>
   </thead>
   <tbody class="orders">
-    <%= render orders %>
+   <%= render orders %>
   </tbody>
 </table>
+<%= paginate orders %>
 
 <div class="order-errors">
   <%= render 'shared/errors', resource: order %>
