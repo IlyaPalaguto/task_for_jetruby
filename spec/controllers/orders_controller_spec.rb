@@ -12,13 +12,26 @@ RSpec.describe OrdersController, type: :controller do
   end
 
   describe 'POST #create' do
-    it 'saves a new order in database' do
-      expect { post :create, params: { order: attributes_for(:order) }, format: :js }.to change(Order, :count).by(1)
+    context 'with valid attributes' do
+      it 'saves a new order in database' do
+        expect { post :create, params: { order: attributes_for(:order) }, format: :js }.to change(user.orders, :count).by(1)
+      end
+  
+      it 'renders create view' do
+        post :create, params: { order: attributes_for(:order) }, format: :js
+        expect(response).to render_template :create
+      end
     end
 
-    it 'renders create view' do
-      post :create, params: { order: attributes_for(:order) }, format: :js
-      expect(response).to render_template :create
+    context 'with invalid attributes' do
+      it 'does not save order in database' do
+        expect { post :create, params: { order: attributes_for(:order, :invalid) }, format: :js }.to_not change(Order, :count)
+      end
+
+      it 'renders create view' do
+        post :create, params: { order: attributes_for(:order, :invalid) }, format: :js
+        expect(response).to render_template :create
+      end
     end
   end
 end
