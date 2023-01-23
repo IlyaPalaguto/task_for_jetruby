@@ -7,6 +7,10 @@ class OrdersController < ApplicationController
     order(order_params).save
   end
 
+  def show
+    
+  end
+
   private
 
   def orders

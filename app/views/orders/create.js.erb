@@ -1,1 +1,4 @@
-$('.orders').html('<%= "#{order.destination} - #{order.departure_point}" %>')
+$('.order-errors').html('<%= j render 'shared/errors', resource: order %>');
+<% if order.persisted? %>
+  $('.orders').append('<%= j render order %>')
+<% end %>

@@ -1,0 +1,8 @@
+<% if resource&.errors.present? %>
+  <%= content_tag :b, "#{ resource.errors.count } error(s) detected" %>
+  <ul>
+    <% resource.errors.full_messages.each do |message| %>
+     <%= content_tag :li, message %>
+    <% end %>
+  </ul>
+<% end %>
