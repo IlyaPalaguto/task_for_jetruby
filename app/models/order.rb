@@ -2,6 +2,8 @@ class Order < ApplicationRecord
   validates :weight, :length, :width, :height, :departure_point, :destination, presence: true
   before_save :before_save_calculate_price
 
+  belongs_to :user
+
   private
 
   def before_save_calculate_price

@@ -1,25 +1,17 @@
 class OrdersController < ApplicationController
-  def index
-    
-  end
-
   def create
     order(order_params).save
-  end
-
-  def show
-    
   end
 
   private
 
   def orders
-    @orders ||= Order.all
+    @orders ||= current_user.orders
   end
   helper_method :orders
 
   def order(attributes = {})
-    @order ||= params[:id] ? Order.find(params[:id]) : Order.new(attributes)
+    @order ||= params[:id] ? Order.find(params[:id]) : current_user.orders.new(attributes)
   end
   helper_method :order
 

@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe OrdersController, type: :controller do
+  let(:user) { create(:user) }
+  before { login(user) }
+  
   describe 'GET #index' do
     it 'renders index views' do
       get :index
