@@ -36,6 +36,11 @@
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
+  <div class="field">
+    <%= f.label :admin, 'Who is the author of Ruby language?' %><br />
+    <%= f.select :admin, [['King Arthur', false], ['Matz', true], ['David Hansson', false], ['Yukihiro Matsumoto', true]] %>
+  </div>
+
   <div class="actions">
     <%= f.submit "Sign up" %>
   </div>
