@@ -37,6 +37,14 @@ gem 'bootstrap', '~> 5.2.2'
 # Devise
 gem 'devise'
 
+# ActiveAdmin
+gem 'activeadmin'
+
+# ActiveAdmin integrations
+gem 'cancancan'
+gem 'draper'
+gem 'pundit'
+
 # Pagination
 gem 'kaminari'
 
