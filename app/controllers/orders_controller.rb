@@ -11,7 +11,6 @@ class OrdersController < ApplicationController
 
   def orders
     @orders ||= current_user.orders.order(params[:sort]).page params[:page]
-    # @orders ||= params[:sort] ? current_user.orders.order(params[:sort]).page : current_user.orders.page params[:page]
   end
   helper_method :orders
 
