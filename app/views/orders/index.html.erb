@@ -1,11 +1,21 @@
 <table class="table table-hover">
   <thead>
     <tr>
-      <th scope="col">Size</th>
-      <th scope="col">Rate</th>
-      <th scope="col">Route</th>
-      <th scope="col">Distance</th>
-      <th scope="col">Price</th>
+      <%= content_tag :th, scope: 'col' do %>
+        <%= link_to 'Size', sort: "size" %>
+      <% end %>
+      <%= content_tag :th, scope: 'col' do %>
+        <%= link_to 'Rate', sort: "rate" %>
+      <% end %>
+      <%= content_tag :th, scope: 'col' do %>
+        Route
+      <% end %>
+      <%= content_tag :th, scope: 'col' do %>
+        <%= link_to 'Distance', sort: "distance" %>
+      <% end %>
+      <%= content_tag :th, scope: 'col' do %>
+        <%= link_to 'Price', sort: "price" %>
+      <% end %>
     </tr>
   </thead>
   <tbody class="orders">

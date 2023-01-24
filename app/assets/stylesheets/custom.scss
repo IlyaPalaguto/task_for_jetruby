@@ -1,9 +1,14 @@
 .hide {
   display: none;
 }
+
 .pagination {
   margin-bottom: 15px;
   width: 100%;
   display: flex;
   justify-content: center;
+}
+
+.pointer {
+  cursor: pointer;
 }

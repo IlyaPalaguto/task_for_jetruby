@@ -3,10 +3,15 @@ class OrdersController < ApplicationController
     order(order_params).save
   end
 
+  def index
+
+  end
+
   private
 
   def orders
-    @orders ||= current_user.orders.page params[:page]
+    @orders ||= current_user.orders.order(params[:sort]).page params[:page]
+    # @orders ||= params[:sort] ? current_user.orders.order(params[:sort]).page : current_user.orders.page params[:page]
   end
   helper_method :orders
 
