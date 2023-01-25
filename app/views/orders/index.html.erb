@@ -1,4 +1,4 @@
-<%= link_to 'log out', destroy_user_session_path, method: :delete %>
+<h1>My orders</h1>
 <table class="table table-hover">
   <thead>
     <tr>
@@ -30,23 +30,32 @@
 </div>
 
 <%= form_with model: order, remote: true do |f| %>
-  <%= f.label :weight %>
-  <%= f.number_field :weight %>
 
-  <%= f.label :length %>
-  <%= f.number_field :length %>
+  <%= f.fields_for :package do |h| %>
 
-  <%= f.label :width %>
-  <%= f.number_field :width %>
+    <%= h.label :weight %>
+    <%= h.number_field :weight %>
 
-  <%= f.label :height %>
-  <%= f.number_field :height %>
+    <%= h.label :length %>
+    <%= h.number_field :length %>
 
-  <%= f.label :departure_point %>
-  <%= f.text_field :departure_point %>
+    <%= h.label :width %>
+    <%= h.number_field :width %>
 
-  <%= f.label :destination %>
-  <%= f.text_field :destination %>
+    <%= h.label :height %>
+    <%= h.number_field :height %>
+
+  <% end %>
+
+  <%= f.fields_for :route do |h| %>
+
+    <%= h.label :departure_point %>
+    <%= h.text_field :departure_point %>
+
+    <%= h.label :destination %>
+    <%= h.text_field :destination %>
+
+  <% end %>
 
   <%= f.submit %>
 <% end %>

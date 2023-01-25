@@ -24,7 +24,7 @@ feature 'User can create order' do
     scenario 'User tries create order with errors', js: true do
       visit root_path
       click_on 'Create Order'
-      expect(page).to have_content "Width can't be blank"
+      expect(page).to have_content "width can't be blank"
     end
 
   end

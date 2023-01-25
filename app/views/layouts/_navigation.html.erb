@@ -1,1 +1,2 @@
 <%= link_to 'Admin panel', admin_root_path if current_user&.admin? %>
+<%= link_to 'log out', destroy_user_session_path, method: :delete %>

@@ -1,38 +1,37 @@
 class Order < ApplicationRecord
-  validates :weight, :length, :width, :height, :departure_point, :destination, presence: true
-  before_save :before_save_calculate_price
-
   belongs_to :user
+
+  has_one :route, dependent: :destroy
+  has_one :package, dependent: :destroy
+  
+  accepts_nested_attributes_for :route
+  accepts_nested_attributes_for :package
 
   paginates_per 3
 
-  private
+  enum status: { received: 0, dispatched: 1, delivered: 2 }
 
-  def before_save_calculate_price
-    calculate_distance
-    self.price = distance * set_rate
+  enum rate: { '1 rubels per km': 1,
+               '2 rubels per km': 2,
+               '3 rubels per km': 3 }
+      
+  def calculate_price
+    self.price = route.distance * set_rate
+    save
   end
-  
-  def calculate_distance
-    self.distance = DistanceService.new(starting_point: departure_point, destination: destination).call
-  end
+
+  private             
 
   def set_rate
-    if calculate_size > 1
-      if weight < 10
-        self.rate = '2 rubles per km'
-        2
-      else
-        self.rate = '3 rubles per km'
-        3
-      end
-    else
-      self.rate = '1 ruble per km'
-      1
-    end
+    self.rate = if package.size > 1
+                  if package.weight < 10
+                    2
+                  else
+                    3
+                  end
+                else
+                  1
+                end
   end
   
-  def calculate_size
-    self.size = (length * 0.01) * (width * 0.01) * (height * 0.01)
-  end
 end

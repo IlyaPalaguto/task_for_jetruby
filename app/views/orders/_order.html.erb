@@ -1,7 +1,7 @@
 <%= content_tag :tr, data: { order_id: order.id }, class: 'pointer' do %>
-  <%= content_tag :td, order.size %>
+  <%= content_tag :td, order.package.size %>
   <%= content_tag :td, order.rate %>
-  <%= content_tag :td, "#{ order.departure_point } - #{ order.destination }" %>
-  <%= content_tag :td, order.distance %>
+  <%= content_tag :td, "#{ order.route.departure_point } - #{ order.route.destination }" %>
+  <%= content_tag :td, order.route.distance %>
   <%= content_tag :td, order.price %>
 <% end %>

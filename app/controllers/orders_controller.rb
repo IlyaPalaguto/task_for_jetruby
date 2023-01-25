@@ -1,16 +1,17 @@
 class OrdersController < ApplicationController
   def create
-    order(order_params).save
+    order.calculate_price if order(order_params).save
   end
 
   def index
-
+    order.build_route
+    order.build_package
   end
 
   private
 
   def orders
-    @orders ||= current_user.orders.order(params[:sort]).page params[:page]
+    @orders ||= current_user.orders.joins(:route, :package).order(params[:sort]).page params[:page]
   end
   helper_method :orders
 
@@ -20,11 +21,7 @@ class OrdersController < ApplicationController
   helper_method :order
 
   def order_params
-    params.require(:order).permit(:weight, 
-                                  :length,
-                                  :width,
-                                  :height,
-                                  :departure_point,
-                                  :destination)
+    params.require(:order).permit(package_attributes: [:weight, :length, :width, :height],
+                                  route_attributes: [:departure_point, :destination])
   end
 end
