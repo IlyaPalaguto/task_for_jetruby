@@ -5,9 +5,9 @@ ActiveAdmin.register Package do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  belongs_to :order
 
   permit_params :width, :weight, :length, :height, :order_id
+  menu false
 
   #
   # or

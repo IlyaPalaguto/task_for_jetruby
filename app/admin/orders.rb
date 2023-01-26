@@ -1,80 +1,82 @@
 ActiveAdmin.register Order do
-
-  # See permitted parameters documentation:
-  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  #
-  # Uncomment all parameters which should be permitted for assignment
-  #
-  includes :package, :route
-  
   belongs_to :user, optional: true
+  belongs_to :package, optional: true
+  belongs_to :route, optional: true
+  
+  includes :route
 
   permit_params :user_id,
                 :status,
-                route_attributes: [:destination, :departure_point],
-                package_attributes: [:width, :length, :height, :weight]
+                :id,
+                :package_id,
+                :route_id,
+                route_attributes: [:destination, :departure_point, :distance, :id],
+                package_attributes: [:width, :length, :height, :weight, :size, :id]
 
-  form do |f|
-    f.inputs 'Details' do
-      f.input :id
+  controller do
+    def scoped_collection
+      super.includes :route, :package
+    end
+  end
+
+  member_action :confirm, method: :put do
+    resource.confirm!
+    redirect_to admin_orders_path, notice: "Status successfully changed!"
+  end
+
+  member_action :deliver, method: :put do
+    resource.deliver!
+    redirect_to admin_orders_path, notice: "Status successfully changed!"
+  end
+
+  action_item :status, priority: 0, only: :index do
+    link_to 'View on site', orders_path
+  end
+
+  form :html => { :multipart => true } do |f|
+    f.inputs "General" do
+      f.input :id, as: :string, input_html: { readonly: true, disabled: true }
       f.input :status
-      f.input :created_at
+      f.input :created_at, as: :string, input_html: { readonly: true, disabled: true }
     end
-    f.inputs "Route details", :for => [:route || Order.route.new ] do |r|
-      r.input :destination
-      r.input :departure_point
-      r.input :distance
+  
+    f.inputs "Route details", :for => [:route, f.object.route || Route.new ] do |fm|
+      fm.input :destination
+      fm.input :departure_point
+      fm.input :distance, as: :string, input_html: { readonly: true, disabled: true }
     end
-    f.inputs "Package details", :for => [:package || Order.package.new ] do |pack|
+
+    f.inputs "Package details", for: [:package, f.object.package || Package.new] do |pack|
       pack.input :width
       pack.input :length
       pack.input :height
       pack.input :weight
+      pack.input :size, as: :string, input_html: { readonly: true, disabled: true }
     end
-    f.inputs 'Calculation' do
-      f.input :rate
-      f.input :price
+
+    f.inputs "Calculation" do
+      f.input :rate, as: :string, input_html: { readonly: true, disabled: true }
+      f.input :price, as: :string, input_html: { readonly: true, disabled: true }
     end
-    # f.inputs do
-    #   f.has_many :taggings, sortable: :position, sortable_start: 1 do |t|
-    #     t.input :tag
-    #   end
-    # end
-    # f.inputs do
-    #   f.has_many :comments,
-    #               new_record: 'Leave Comment',
-    #               remove_record: 'Remove Comment',
-    #               allow_destroy: -> (c) { c.author?(current_admin_user) } do |b|
-    #     b.input :body
-    #   end
-    # end
+
     f.actions
   end
 
-  # index as: :block do |order|
-  #   div for: order do
-  #     resource_selection_cell order
-  #     h2  auto_link     order.user.first_name
-  #     div simple_format order.rate
-  #   end
-  # end
+  index row_class: ->elem { elem.status } do
+    selectable_column
+    index_column
+    column 'Route', :route_text
+    column :distance, sortable: 'routes.distance'
+    column :package_size, sortable: 'packages.size'
+    column :rate
+    column :price
+    column :created_at
+    column :status
 
-  # index as: :blog do
-  #   title :user # Calls #my_title on each resource
-  #   body  :rate  # Calls #my_body on each resource
-  # end
-
-  # controller do
-  #   def scoped_collection
-  #     end_of_association_chain.where(visibility: true)
-  #   end
-  # end
-  # or
-  #
-  # permit_params do
-  #   permitted = [:weight, :length, :width, :height, :departure_point, :destination, :distance, :size, :price, :rate, :user_id]
-  #   permitted << :other if params[:action] == 'create' && current_user.admin?
-  #   permitted
-  # end
-  
+    actions defaults: false do |order|
+      item "Confirm", confirm_admin_order_path(order), method: :put, class: 'member_link' if order.may_confirm?
+      item "Deliver", deliver_admin_order_path(order), method: :put, class: 'member_link' if order.may_deliver?
+      a "Edit", href: edit_admin_order_path(order)
+    end
+  end
 end

@@ -5,13 +5,8 @@ class Order < ApplicationRecord
   belongs_to :package
   belongs_to :route
 
-  has_one :route, dependent: :destroy
-  has_one :package, dependent: :destroy
-  
   accepts_nested_attributes_for :route
   accepts_nested_attributes_for :package
-
-  before_save :calculate_price, if: :persisted?
 
   paginates_per 3
 
@@ -37,6 +32,18 @@ class Order < ApplicationRecord
       
   def calculate_price
     update(price: route.distance * set_rate)
+  end
+
+  def distance
+    route.distance
+  end
+  
+  def route_text
+    "#{route.departure_point} - #{route.destination}"
+  end
+
+  def package_size
+    package.size
   end
 
   private

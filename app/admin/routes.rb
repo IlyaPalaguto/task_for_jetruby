@@ -5,9 +5,9 @@ ActiveAdmin.register Route do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  belongs_to :order
 
   permit_params :destination, :departure_point, :order_id
+  menu false
   #
   # or
   #
