@@ -1,4 +1,6 @@
 ActiveAdmin.register Order do
+  config.filters = false
+  
   belongs_to :user, optional: true
   belongs_to :package, optional: true
   belongs_to :route, optional: true

@@ -1,6 +1,9 @@
 class OrdersController < ApplicationController
   def create
-    order.calculate_price if order(order_params).save
+    if order(order_params).save
+      order.calculate_price 
+      MailerJob.perform_async(order.id)
+    end
   end
 
   def index

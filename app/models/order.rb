@@ -21,13 +21,17 @@ class Order < ApplicationRecord
     state :dispatched
     state :delivered
 
-    event :confirm do
+    event :confirm, after_commit: :notify_about_status_changed do
       transitions from: :received, to: :dispatched
     end
 
-    event :deliver do
+    event :deliver, after_commit: :notify_about_status_changed do
       transitions from: :dispatched, to: :delivered
     end
+  end
+
+  def notify_about_status_changed
+    MailerJob.perform_async(self.id)
   end
       
   def calculate_price
