@@ -56,6 +56,10 @@ gem 'sidekiq'
 
 gem 'letter_opener'
 
+# Avatatars
+gem 'carrierwave', '>= 3.0.0.beta', '< 4.0'
+gem "rmagick"
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

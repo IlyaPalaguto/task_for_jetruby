@@ -12,3 +12,10 @@
 .pointer {
   cursor: pointer;
 }
+
+.avatar {
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(26, 9, 9, 0.4);
+  padding: 0.3em;
+  margin-bottom: 1em;
+}
