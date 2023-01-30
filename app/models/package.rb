@@ -1,10 +1,12 @@
 class Package < ApplicationRecord
-  has_one :order, dependent: :destroy
+  belongs_to :order
   has_one :route, through: :order, dependent: :destroy
 
   validates :weight, :length, :width, :height, presence: true
 
-  before_save :before_save_calculate_size
+  before_save :before_save_calculate_size, unless: :skip_callback
+
+  attr_accessor :skip_callback
 
   private
 

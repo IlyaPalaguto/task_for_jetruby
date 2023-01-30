@@ -1,7 +1,7 @@
 class DistanceMatrixClient
   
-  ROOT_ENDPOIN = "https://api.distancematrix.ai/maps/api/distancematrix/json"
-  ACCESS_TOKEN = 'XjoFVCSss5tdQDAjR2m3CyMaIR9jP'
+  ROOT_ENDPOINT = "https://api.distancematrix.ai/maps/api/distancematrix/json"
+  ACCESS_TOKEN = 'TTrzjSS9K1BCXnl8WrYZl45xD9YZj'
 
   def initialize
     @http_client = setup_http_client
@@ -18,6 +18,6 @@ class DistanceMatrixClient
   private
 
   def setup_http_client
-    Faraday.new(url: ROOT_ENDPOIN)
+    Faraday.new(url: ROOT_ENDPOINT)
   end
 end

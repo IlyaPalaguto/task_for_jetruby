@@ -2,8 +2,8 @@ class Order < ApplicationRecord
   include AASM
 
   belongs_to :user
-  belongs_to :package
-  belongs_to :route
+  has_one :package, dependent: :destroy
+  has_one :route, dependent: :destroy
 
   accepts_nested_attributes_for :route
   accepts_nested_attributes_for :package
@@ -35,6 +35,8 @@ class Order < ApplicationRecord
   end
       
   def calculate_price
+    route.skip_callback = true
+    package.skip_callback = true
     update(price: route.distance * set_rate)
   end
 

@@ -36,10 +36,6 @@ ActiveRecord::Schema.define(version: 2023_01_27_051659) do
     t.bigint "user_id", null: false
     t.integer "rate"
     t.integer "status", default: 0, null: false
-    t.bigint "package_id", null: false
-    t.bigint "route_id", null: false
-    t.index ["package_id"], name: "index_orders_on_package_id"
-    t.index ["route_id"], name: "index_orders_on_route_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
@@ -51,6 +47,8 @@ ActiveRecord::Schema.define(version: 2023_01_27_051659) do
     t.decimal "size", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "order_id", null: false
+    t.index ["order_id"], name: "index_packages_on_order_id"
   end
 
   create_table "routes", force: :cascade do |t|
@@ -59,6 +57,8 @@ ActiveRecord::Schema.define(version: 2023_01_27_051659) do
     t.integer "distance", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "order_id", null: false
+    t.index ["order_id"], name: "index_routes_on_order_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 2023_01_27_051659) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "orders", "packages"
-  add_foreign_key "orders", "routes"
   add_foreign_key "orders", "users"
+  add_foreign_key "packages", "orders"
+  add_foreign_key "routes", "orders"
 end

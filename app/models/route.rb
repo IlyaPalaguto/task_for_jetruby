@@ -1,10 +1,12 @@
 class Route < ApplicationRecord
-  has_one :order, dependent: :destroy
+  belongs_to :order
   has_one :package, through: :order, dependent: :destroy
   
   validates :departure_point, :destination, presence: true
 
-  before_save :before_save_calculate_distance
+  before_save :before_save_calculate_distance, unless: :skip_callback
+
+  attr_accessor :skip_callback
 
   private
 
