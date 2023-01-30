@@ -1,7 +1,6 @@
 class DistanceMatrixClient
   
   ROOT_ENDPOINT = "https://api.distancematrix.ai/maps/api/distancematrix/json"
-  ACCESS_TOKEN = 'TTrzjSS9K1BCXnl8WrYZl45xD9YZj'
 
   def initialize
     @http_client = setup_http_client
@@ -11,7 +10,7 @@ class DistanceMatrixClient
     @http_client.get do |request|
       request.params[:destinations] = destination
       request.params[:origins]      = origin
-      request.params[:key]          = ACCESS_TOKEN
+      request.params[:key]          = ENV['ACCESS_TOKEN']
     end
   end
 

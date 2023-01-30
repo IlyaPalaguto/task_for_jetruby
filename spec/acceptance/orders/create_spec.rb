@@ -15,7 +15,7 @@ feature 'User can create order' do
       fill_in 'Destination', with: 'Tyumen'
   
       click_on 'Create Order'
-      
+
       within '.orders' do
         expect(page).to have_content 'Moscow - Tyumen', wait: 10
       end

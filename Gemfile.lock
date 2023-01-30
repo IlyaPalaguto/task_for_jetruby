@@ -116,6 +116,10 @@ GEM
       responders
       warden (~> 1.2.3)
     diff-lcs (1.5.0)
+    dotenv (2.8.1)
+    dotenv-rails (2.8.1)
+      dotenv (= 2.8.1)
+      railties (>= 3.2)
     draper (4.0.2)
       actionpack (>= 5.0)
       activemodel (>= 5.0)
@@ -369,6 +373,7 @@ DEPENDENCIES
   capybara (>= 2.15)
   carrierwave (>= 3.0.0.beta, < 4.0)
   devise
+  dotenv-rails
   draper
   factory_bot_rails
   faraday
