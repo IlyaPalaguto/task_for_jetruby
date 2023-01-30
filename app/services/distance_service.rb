@@ -7,8 +7,12 @@ class DistanceService
 
   def call
     response = @client.calculate(destination: @destination, origin: @starting_point)
-    puts response.body
-    JSON.parse(response.body)['rows'][0]['elements'][0]['distance']['value'] / 1000
+    # JSON.parse(response.body)["rows"][0]["elements"][0]["status"]
+    if JSON.parse(response.body)["rows"][0]["elements"][0]["status"] == 'OK'
+      JSON.parse(response.body)['rows'][0]['elements'][0]['distance']['value'] / 1000
+    else
+      raise JSON.parse(response.body)["rows"][0]["elements"][0]["status"]
+    end
   end
 
   private

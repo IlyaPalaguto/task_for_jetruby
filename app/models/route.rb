@@ -4,14 +4,16 @@ class Route < ApplicationRecord
   
   validates :departure_point, :destination, presence: true
 
-  before_save :before_save_calculate_distance, unless: :skip_callback
+  before_validation :before_validation_calculate_distance, unless: :skip_callback
 
   attr_accessor :skip_callback
 
   private
 
-  def before_save_calculate_distance
+  def before_validation_calculate_distance
     self.distance = DistanceService.new(starting_point: departure_point, destination: destination).call
     order.calculate_price if persisted?
+  rescue => e
+    errors.add(:route, e.message)
   end
 end

@@ -45,9 +45,9 @@ ActiveRecord::Schema.define(version: 2023_01_27_051659) do
     t.integer "length", null: false
     t.integer "height", null: false
     t.decimal "size", null: false
+    t.bigint "order_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "order_id", null: false
     t.index ["order_id"], name: "index_packages_on_order_id"
   end
 
@@ -55,9 +55,9 @@ ActiveRecord::Schema.define(version: 2023_01_27_051659) do
     t.string "destination", null: false
     t.string "departure_point", null: false
     t.integer "distance", null: false
+    t.bigint "order_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "order_id", null: false
     t.index ["order_id"], name: "index_routes_on_order_id"
   end
 
